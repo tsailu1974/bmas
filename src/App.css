@@ -107,3 +107,32 @@
   transition: background-color 0.3s ease;
 }
 
+.results {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.results h4 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results th,
+.results td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.results th {
+  background-color: #efefef;
+  font-weight: bold;
+}
