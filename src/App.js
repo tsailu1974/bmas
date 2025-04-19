@@ -5,20 +5,29 @@ const NavigationTabs = () => {
   const [activeTab, setActiveTab] = useState("Home");
   const [groupId, setGroupId] = useState("");
   const [employees, setEmployees] = useState([]);
+  const [searchTriggered, setSearchTriggered] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setErrorMessage("");
     if (!groupId) {
       alert("Please enter a group ID");
       return;
     }
- 
+    setSearchTriggered(true);
     console.log("Calling API for GroupId:", groupId);
 
-  fetch(`http://localhost:5280/api/employees/${groupId}`)
+  fetch(`http://localhost:5280/api/employees/group/${groupId}`)
   .then(res => {
     if (!res.ok) {
-      throw new Error("Group was not found");
+      if (res.status === 404) {
+        throw new Error("Group was not found");
+      } else if (res.status === 500) {
+        throw new Error("Server error occurred. Please try again later.");
+      } else {
+        throw new Error("An unexpected error occurred.");
+      }
     }
     return res.json();
   })
@@ -30,6 +39,7 @@ const NavigationTabs = () => {
   .catch(err => {
     console.error("Error fetching employees:", err);
     setEmployees([]);
+    setErrorMessage(err.message);
   });
 };
   return (
@@ -77,7 +87,7 @@ const NavigationTabs = () => {
               </div>
               <div className='input-group'>
                 <label className='label'>Group Id</label>
-                <input  className='input'type="text" name="groupId" value={groupId} onChange={(e) => setGroupId(e.target.value)} />
+                <input  className='input'type="text" name="groupId" value={groupId} onChange={(e) =>  {setGroupId(e.target.value); setSearchTriggered(false);}} />
               </div>
             </div>
             <div className='search-button-wrapper'>
@@ -85,7 +95,12 @@ const NavigationTabs = () => {
             </div>
           </form>
         </div>
-        {groupId && (
+        {searchTriggered && groupId && (
+          errorMessage ? (
+            <div className="results no-results" style={{ color: "red" }}>
+              <h4>Error: {errorMessage}</h4>
+            </div>
+          ) :
           employees.length > 0 ? (
             <div className='results'>
               <h4>Employees In Group {groupId}</h4>

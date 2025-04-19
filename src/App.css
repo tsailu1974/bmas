@@ -136,3 +136,14 @@
   background-color: #efefef;
   font-weight: bold;
 }
+
+.results.no-results {
+  text-align: center;
+  background-color: #fff4f4;
+  border: 1px solid #f0c0c0;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #a00;
+}
