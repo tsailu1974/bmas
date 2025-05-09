@@ -7,7 +7,7 @@ const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
   const [searchTriggered, setSearchTriggered] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+ 
   const handleSearch = (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -18,9 +18,22 @@ const Dashboard = () => {
     setSearchTriggered(true);
     console.log("Calling API for GroupId:", groupId);
 
-    fetch(`http://localhost:5280/api/employees/group/${groupId}`)
+    // grab token from localStorage
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setErrorMessage("You must be logged in to perform this action.");
+    return;
+  }
+
+  fetch(`http://localhost:5280/api/employees/group/${groupId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,    // ← include your JWT here
+    }
+  })
       .then(res => {
         if (!res.ok) {
+          if (res.status === 401) throw new Error("Unauthorized — please log in again.");
           if (res.status === 404) throw new Error("Group was not found");
           if (res.status === 500) throw new Error("Server error occurred");
           throw new Error("An unexpected error occurred.");
@@ -122,8 +135,8 @@ const Dashboard = () => {
               </thead>
               <tbody>
                 {employees.map(emp => (
-                  <tr key={emp.employeeId}>
-                    <td>{emp.employeeId}</td>
+                  <tr key={emp.employeeID}>
+                    <td>{emp.employeeID}</td>
                     <td>{emp.firstName} {emp.lastName}</td>
                     <td>{emp.email}</td>
                     <td>{emp.employmentType}</td>
