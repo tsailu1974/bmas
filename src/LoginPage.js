@@ -14,7 +14,7 @@ const LoginPage = () => {
         setLoading(true);
 
         try{
-            const response = await fetch(`${REACT_APP_JWT_AUTH_API_URL}/auth/login`, {
+            const response = await fetch(`${process.env.REACT_APP_JWT_AUTH_API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
