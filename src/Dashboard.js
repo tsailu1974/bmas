@@ -8,6 +8,11 @@ const Dashboard = () => {
   const [searchTriggered, setSearchTriggered] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
  
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login"; // Redirect to login page
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -64,6 +69,21 @@ const Dashboard = () => {
             {tab}
           </span>
         ))}
+        <button 
+          className="logout-button" 
+          onClick={handleLogout}
+          style={{
+            marginLeft: 'auto',
+            padding: '8px 16px',
+            backgroundColor: '#dc3545',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Logout
+        </button>
       </div>
       <hr className="underline" />
 
