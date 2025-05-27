@@ -12,7 +12,7 @@ const LoginPage = () => {
         e.preventDefault();
         setError('');
         setLoading(true);
-
+        //added env variable
         try{
             const response = await fetch(`${process.env.REACT_APP_JWT_AUTH_API_URL}/auth/login`, {
                 method: 'POST',
