@@ -30,7 +30,7 @@ const Dashboard = () => {
     return;
   }
 
-  fetch(`http://localhost:5280/api/employees/group/${groupId}`, {
+  fetch(`${process.env.REACT_APP_EMPLOYEESERVICE_API_URL}/employees/group/${groupId}`, {
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}`,    // ← include your JWT here
