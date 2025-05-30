@@ -28,7 +28,7 @@ jobs:
         run: npm ci
       - name: Inject environment variables
         run: |
-          echo "REACT_APP_JWT_AUTH_API_URL=${{ vars.REACT_APP_JWT_AUTH_API_URL }}" >> .env.production
+          echo "REACT_APP_JWT_AUTH_API_URL=${{ vars.REACT_APP_JWT_AUTH_API_DOCKER_URL }}" >> .env.production
       - name: Build React App
         run: npm run build
       - name: Build And Deploy
